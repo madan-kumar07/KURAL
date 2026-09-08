@@ -1,4 +1,4 @@
-// ConfirmationDialog.tsx — Modal for sensitive file confirmation
+// ConfirmationDialog.tsx — Modal for sensitive file confirmation with dark theme
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { AlertTriangle, X } from 'lucide-react'
@@ -15,9 +15,9 @@ interface ConfirmationDialogProps {
 }
 
 const variantConfig = {
-  warning: { color: '#d97706', bg: 'rgba(217,119,6,0.10)', icon: AlertTriangle },
-  danger:  { color: '#dc2626', bg: 'rgba(220,38,38,0.10)', icon: AlertTriangle },
-  info:    { color: '#0088ff', bg: 'rgba(0,136,255,0.10)', icon: AlertTriangle },
+  warning: { color: '#fbbf24', bg: 'rgba(251,191,36,0.15)', icon: AlertTriangle },
+  danger:  { color: '#f87171', bg: 'rgba(248,113,113,0.15)', icon: AlertTriangle },
+  info:    { color: '#38bdf8', bg: 'rgba(56,189,248,0.15)', icon: AlertTriangle },
 }
 
 export function ConfirmationDialog({
@@ -60,28 +60,28 @@ export function ConfirmationDialog({
                 >
                   <Icon size={20} color={config.color} />
                 </div>
-                <h3 className="text-base font-semibold text-ink">{title}</h3>
+                <h3 className="text-sm font-bold text-slate-100">{title}</h3>
               </div>
               <button
                 onClick={onCancel}
-                className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-black/5"
+                className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/10"
                 aria-label="Close"
               >
-                <X size={16} color="rgba(13,31,53,0.5)" />
+                <X size={16} className="text-slate-400" />
               </button>
             </div>
 
             {/* Message */}
-            <p className="text-sm text-ink-secondary leading-relaxed mb-6">{message}</p>
+            <p className="text-xs text-slate-300 leading-relaxed mb-6">{message}</p>
 
             {/* Actions */}
             <div className="flex gap-3">
-              <button onClick={onCancel} className="btn-secondary flex-1">
+              <button onClick={onCancel} className="btn-secondary flex-1 text-xs justify-center">
                 {cancelLabel}
               </button>
               <button
                 onClick={onConfirm}
-                className="flex-1 py-2.5 px-4 rounded-full text-sm font-semibold text-white transition-all"
+                className="flex-1 py-2 px-4 rounded-full text-xs font-semibold text-white transition-all"
                 style={{
                   background: config.color,
                   boxShadow: `0 4px 16px ${config.color}40`,

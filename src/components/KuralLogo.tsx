@@ -1,4 +1,4 @@
-// KuralLogo.tsx — The KURAL wordmark and logo
+// KuralLogo.tsx — Glowing KURAL wordmark
 
 interface KuralLogoProps {
   size?: 'sm' | 'md' | 'lg'
@@ -7,35 +7,35 @@ interface KuralLogoProps {
 
 const sizes = {
   sm: { logo: 'text-lg', tagline: 'text-xs' },
-  md: { logo: 'text-2xl', tagline: 'text-sm' },
-  lg: { logo: 'text-4xl', tagline: 'text-base' },
+  md: { logo: 'text-xl', tagline: 'text-xs' },
+  lg: { logo: 'text-3xl', tagline: 'text-sm' },
 }
 
 export function KuralLogo({ size = 'md', showTagline = false }: KuralLogoProps) {
   const s = sizes[size]
   return (
     <div className="flex flex-col">
-      <div className="flex items-baseline gap-1">
+      <div className="flex items-center gap-1.5">
         <span
-          className={`${s.logo} font-bold tracking-tight`}
+          className={`${s.logo} font-extrabold tracking-tight`}
           style={{
-            background: 'linear-gradient(135deg, #005299 0%, #0088ff 60%, #33a0ff 100%)',
+            background: 'linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #c084fc 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
+            filter: 'drop-shadow(0 2px 8px rgba(56,189,248,0.3))',
           }}
         >
           KURAL
         </span>
         <span
-          className="text-xs font-medium px-1.5 py-0.5 rounded-full ml-1"
-          style={{ background: 'rgba(0,136,255,0.10)', color: '#005299' }}
+          className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/30"
         >
           β
         </span>
       </div>
       {showTagline && (
-        <p className={`${s.tagline} text-ink-secondary font-medium mt-0.5`}>
+        <p className={`${s.tagline} text-slate-400 font-medium mt-0.5`}>
           Your multilingual AI assistant
         </p>
       )}

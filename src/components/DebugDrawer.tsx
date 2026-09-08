@@ -27,18 +27,18 @@ export function DebugDrawer({ plan, isVisible, onToggle }: DebugDrawerProps) {
   if (!plan) return null
 
   return (
-    <div className="mt-3">
+    <div className="mt-2">
       {/* Toggle button */}
       <button
         onClick={onToggle}
-        className="flex items-center gap-2 text-xs font-medium w-full text-ink-tertiary hover:text-brand transition-colors py-1"
+        className="flex items-center gap-2 text-xs font-semibold w-full text-slate-400 hover:text-cyan-400 transition-colors py-1"
         aria-expanded={isVisible}
         aria-controls="debug-drawer"
       >
-        <Code2 size={12} />
+        <Code2 size={13} />
         <span>JSON Action Plan</span>
-        {isVisible ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-        <span className="ml-auto kural-badge text-xs">
+        {isVisible ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+        <span className="ml-auto kural-badge text-[10px]">
           {plan.actions.length} action{plan.actions.length !== 1 ? 's' : ''}
         </span>
       </button>
@@ -48,8 +48,7 @@ export function DebugDrawer({ plan, isVisible, onToggle }: DebugDrawerProps) {
         {isVisible && json && (
           <motion.div
             id="debug-drawer"
-            className="relative mt-2 rounded-xl overflow-hidden"
-            style={{ background: 'rgba(13,31,53,0.92)', border: '1px solid rgba(0,136,255,0.20)' }}
+            className="relative mt-2 rounded-xl overflow-hidden bg-black/60 border border-cyan-500/20"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -58,8 +57,7 @@ export function DebugDrawer({ plan, isVisible, onToggle }: DebugDrawerProps) {
             {/* Copy button */}
             <button
               onClick={handleCopy}
-              className="absolute top-3 right-3 flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-colors"
-              style={{ background: 'rgba(0,136,255,0.15)', color: '#93c5fd' }}
+              className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition-colors"
               aria-label="Copy JSON"
             >
               {copied ? <Check size={11} /> : <Copy size={11} />}
@@ -67,8 +65,7 @@ export function DebugDrawer({ plan, isVisible, onToggle }: DebugDrawerProps) {
             </button>
 
             <pre
-              className="text-xs p-4 overflow-auto max-h-60 font-mono leading-relaxed"
-              style={{ color: '#93c5fd', scrollbarWidth: 'thin' }}
+              className="text-[11px] p-4 overflow-auto max-h-60 font-mono leading-relaxed text-cyan-200"
             >
               <code>{json}</code>
             </pre>

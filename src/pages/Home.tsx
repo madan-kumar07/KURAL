@@ -1,4 +1,4 @@
-// Home.tsx — Primary KURAL interaction screen with all 11 capabilities
+// Home.tsx — Primary KURAL interaction screen with ultra-premium dark UI
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -32,7 +32,7 @@ import type { ActivityRecord } from '../data/ActivityRepository'
 const SUGGESTION_GROUPS = [
   {
     label: 'Apps & Media',
-    color: '#e53e3e',
+    color: '#ef4444',
     icon: Video,
     items: [
       { text: 'Open YouTube', emoji: '▶️' },
@@ -43,7 +43,7 @@ const SUGGESTION_GROUPS = [
   },
   {
     label: 'Search',
-    color: '#0088ff',
+    color: '#38bdf8',
     icon: Search,
     items: [
       { text: 'Search weather today', emoji: '🌤️' },
@@ -53,7 +53,7 @@ const SUGGESTION_GROUPS = [
   },
   {
     label: 'Files',
-    color: '#7c3aed',
+    color: '#c084fc',
     icon: Globe,
     items: [
       { text: 'Find my latest invoice', emoji: '🔍' },
@@ -63,7 +63,7 @@ const SUGGESTION_GROUPS = [
   },
   {
     label: 'Productivity',
-    color: '#059669',
+    color: '#34d399',
     icon: Timer,
     items: [
       { text: 'Set timer for 5 minutes', emoji: '⏱️' },
@@ -259,17 +259,17 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
 
   return (
     <div className="page-container">
-      <div className="max-w-lg mx-auto px-4 pt-4 pb-4 flex flex-col gap-4">
+      <div className="max-w-lg mx-auto px-4 pt-2 pb-4 flex flex-col gap-4">
 
         {/* ── Hero ─── */}
         <motion.div className="text-center pt-1" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-base font-semibold text-ink">Speak naturally.</p>
-          <p className="text-xs text-ink-tertiary mt-0.5">English · தமிழ் · Tanglish · Apps · Files · Music</p>
+          <p className="text-lg font-bold text-slate-100 tracking-tight">Speak naturally.</p>
+          <p className="text-xs text-slate-400 mt-0.5">English · தமிழ் · Tanglish · Apps · Files · Music</p>
         </motion.div>
 
         {/* ── Voice card ─── */}
         <motion.div
-          className="glass-card-elevated p-6 flex flex-col items-center gap-5"
+          className="glass-card-elevated p-6 flex flex-col items-center gap-4"
           initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
@@ -282,8 +282,7 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
                 className="w-full text-center"
                 initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
               >
-                <p className="text-sm font-medium text-ink px-2 leading-relaxed"
-                  style={{ fontStyle: interimTranscript ? 'italic' : 'normal', color: interimTranscript ? 'rgba(13,31,53,0.55)' : '#0d1f35' }}>
+                <p className="text-sm font-medium text-cyan-300 px-2 leading-relaxed italic">
                   "{interimTranscript || transcript}"
                 </p>
               </motion.div>
@@ -291,9 +290,9 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
           </AnimatePresence>
 
           {/* Status */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <div className={`status-dot ${speechState === 'listening' ? 'processing' : speechState === 'idle' && speechSupported ? '' : 'inactive'}`} />
-            <span className="text-xs text-ink-tertiary">
+            <span className="text-xs font-medium text-slate-400">
               {speechState === 'listening' ? 'Listening…'
                 : speechState === 'transcribing' ? 'Processing…'
                 : speechState === 'requesting_permission' ? 'Requesting mic…'
@@ -317,22 +316,21 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
         <AnimatePresence>
           {error && (
             <motion.div
-              className="flex items-start gap-3 p-4 rounded-2xl"
-              style={{ background: errorCode === 'network' || errorCode === 'brave_localhost' ? 'rgba(217,119,6,0.08)' : 'rgba(220,38,38,0.08)', border: `1px solid ${errorCode === 'network' || errorCode === 'brave_localhost' ? 'rgba(217,119,6,0.20)' : 'rgba(220,38,38,0.15)'}` }}
+              className="flex items-start gap-3 p-4 rounded-2xl bg-red-500/10 border border-red-500/20"
               initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             >
-              <AlertCircle size={16} color={errorCode === 'network' || errorCode === 'brave_localhost' ? '#d97706' : '#dc2626'} className="mt-0.5 flex-shrink-0" />
+              <AlertCircle size={16} className="mt-0.5 text-red-400 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-sm font-medium" style={{ color: errorCode === 'network' || errorCode === 'brave_localhost' ? '#92400e' : '#991b1b', whiteSpace: 'pre-line' }}>
+                <p className="text-xs font-medium text-red-300 whitespace-pre-line leading-relaxed">
                   {error}
                 </p>
                 {(errorCode === 'network' || errorCode === 'brave_localhost') && (
-                  <p className="text-xs mt-2 text-ink-secondary">
-                    💡 <strong>Text input works perfectly</strong> — type your command below. Voice works on Chrome/Edge after deployment to HTTPS.
+                  <p className="text-xs mt-2 text-slate-400">
+                    💡 <strong>Text input works perfectly</strong> — type your command above. Voice works on Chrome/Edge on HTTPS.
                   </p>
                 )}
                 {error.includes('No matching file') && (
-                  <button onClick={onNavigateToFiles} className="mt-2 text-xs font-semibold text-red-600 flex items-center gap-1">
+                  <button onClick={onNavigateToFiles} className="mt-2 text-xs font-semibold text-cyan-400 flex items-center gap-1">
                     Add files <ChevronRight size={12} />
                   </button>
                 )}
@@ -345,20 +343,19 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
         <AnimatePresence>
           {candidates.length > 0 && (
             <motion.div className="glass-card p-4 space-y-3" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-              <p className="text-sm font-semibold text-ink">{candidates.length} files found — which one?</p>
+              <p className="text-xs font-bold text-slate-200">{candidates.length} files found — select target file:</p>
               <div className="space-y-2">
                 {candidates.map(file => (
                   <button key={file.id} onClick={() => handleCandidateSelect(file)}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-black/5 transition-colors text-left"
-                    style={{ border: '1px solid rgba(0,136,255,0.12)' }}>
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,136,255,0.10)' }}>
-                      <span className="text-xs font-bold" style={{ color: '#0088ff' }}>{file.type.toUpperCase().slice(0, 3)}</span>
+                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-left">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-cyan-500/20 text-cyan-400">
+                      <span className="text-xs font-bold">{file.type.toUpperCase().slice(0, 3)}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-ink truncate">{file.name}</p>
-                      <p className="text-xs text-ink-tertiary">{new Date(file.modifiedTime).toLocaleDateString('en-IN')}</p>
+                      <p className="text-xs font-semibold text-slate-100 truncate">{file.name}</p>
+                      <p className="text-[10px] text-slate-400">{new Date(file.modifiedTime).toLocaleDateString('en-IN')}</p>
                     </div>
-                    <ChevronRight size={16} color="rgba(0,136,255,0.5)" />
+                    <ChevronRight size={14} className="text-slate-400" />
                   </button>
                 ))}
               </div>
@@ -392,8 +389,8 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
         <AnimatePresence>
           {hasResults && !isProcessing && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center">
-              <button onClick={resetState} className="btn-ghost">
-                <Plus size={16} /> New request
+              <button onClick={resetState} className="btn-secondary">
+                <Plus size={15} /> New request
               </button>
             </motion.div>
           )}
@@ -405,12 +402,12 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
 
               {/* Quick chips strip */}
-              <div className="chips-scroll pb-1">
+              <div className="chips-scroll">
                 {QUICK_CHIPS.map(chip => (
                   <button
                     key={chip}
                     onClick={() => handleSubmit(chip.replace(/^[^\s]+\s/, ''))}
-                    className="suggestion-chip flex-shrink-0 text-xs"
+                    className="suggestion-chip"
                     disabled={isProcessing}
                   >
                     {chip}
@@ -424,17 +421,19 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
                 <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
                   {SUGGESTION_GROUPS.map((g, i) => {
                     const Icon = g.icon
+                    const isSelected = activeGroup === i
                     return (
                       <button
                         key={g.label}
                         onClick={() => setActiveGroup(i)}
-                        className="flex items-center gap-1.5 flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all"
+                        className="flex items-center gap-1.5 flex-shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
                         style={{
-                          background: activeGroup === i ? g.color : 'rgba(0,0,0,0.04)',
-                          color: activeGroup === i ? 'white' : 'rgba(13,31,53,0.55)',
+                          background: isSelected ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                          color: isSelected ? '#38bdf8' : '#94a3b8',
+                          border: isSelected ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
                         }}
                       >
-                        <Icon size={12} />
+                        <Icon size={13} />
                         {g.label}
                       </button>
                     )
@@ -445,9 +444,9 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeGroup}
-                    initial={{ opacity: 0, x: 12 }}
+                    initial={{ opacity: 0, x: 8 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -12 }}
+                    exit={{ opacity: 0, x: -8 }}
                     transition={{ duration: 0.18 }}
                     className="grid grid-cols-1 gap-2"
                   >
@@ -456,12 +455,11 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
                         key={item.text}
                         onClick={() => handleSubmit(item.text)}
                         disabled={isProcessing}
-                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-black/4 transition-colors text-left w-full"
-                        style={{ border: '1px solid rgba(0,0,0,0.05)' }}
+                        className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/8 transition-all text-left w-full"
                       >
-                        <span className="text-lg">{item.emoji}</span>
-                        <span className="text-sm text-ink font-medium">{item.text}</span>
-                        <ChevronRight size={14} color="rgba(0,0,0,0.25)" className="ml-auto flex-shrink-0" />
+                        <span className="text-base">{item.emoji}</span>
+                        <span className="text-xs font-medium text-slate-200">{item.text}</span>
+                        <ChevronRight size={14} className="ml-auto text-slate-500" />
                       </button>
                     ))}
                   </motion.div>
@@ -471,8 +469,8 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
               {/* File add */}
               <div className="glass-card p-4 space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-ink">📁 Add files to search</p>
-                  <button onClick={onNavigateToFiles} className="text-xs text-brand font-medium flex items-center gap-1">
+                  <p className="text-xs font-bold text-slate-200">📁 Add files to search</p>
+                  <button onClick={onNavigateToFiles} className="text-xs text-cyan-400 font-medium flex items-center gap-1">
                     Manage <ChevronRight size={12} />
                   </button>
                 </div>
@@ -482,19 +480,19 @@ export function Home({ voiceLanguage, onNavigateToFiles, onNavigate }: HomeProps
               {/* Recent activity */}
               {recentActivity.length > 0 && (
                 <motion.div className="glass-card p-4 space-y-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-                  <p className="text-sm font-semibold text-ink flex items-center gap-2">
-                    <Sparkles size={14} color="#0088ff" /> Recent
+                  <p className="text-xs font-bold text-slate-200 flex items-center gap-2">
+                    <Sparkles size={14} className="text-cyan-400" /> Recent
                   </p>
                   <div className="space-y-2">
                     {recentActivity.map(a => (
-                      <div key={a.id} className="flex items-center gap-3 py-0.5">
-                        <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(0,136,255,0.08)' }}>
+                      <div key={a.id} className="flex items-center gap-3 py-1 border-b border-white/5 last:border-0">
+                        <div className="w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center bg-cyan-500/10 text-cyan-400">
                           <span className="text-xs">
                             {a.type === 'find_file' ? '🔍' : a.type === 'read_file' ? '📄' : a.type === 'share_file' ? '📤' : a.type === 'create_reminder' ? '🔔' : '⚠️'}
                           </span>
                         </div>
-                        <p className="text-xs font-medium text-ink truncate flex-1">{a.description}</p>
-                        <p className="text-xs text-ink-tertiary flex-shrink-0">
+                        <p className="text-xs font-medium text-slate-200 truncate flex-1">{a.description}</p>
+                        <p className="text-[10px] text-slate-400 flex-shrink-0">
                           {new Date(a.timestamp).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>

@@ -1,6 +1,6 @@
-// CommandInput.tsx — Text input with send button
+// CommandInput.tsx — Futuristic dark text input
 
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Send, X } from 'lucide-react'
 
@@ -45,7 +45,7 @@ export function CommandInput({
 
   return (
     <motion.div
-      className="relative flex items-center"
+      className="relative flex items-center w-full"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
@@ -59,7 +59,7 @@ export function CommandInput({
         placeholder={placeholder}
         disabled={disabled}
         aria-label="Type a command"
-        className="kural-input pr-24"
+        className="kural-input"
         style={{ paddingRight: value ? '5.5rem' : '3.5rem' }}
       />
 
@@ -70,10 +70,10 @@ export function CommandInput({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={() => { onChange(''); onClear?.() }}
-          className="absolute right-14 p-1.5 rounded-full hover:bg-black/5 transition-colors"
+          className="absolute right-12 p-1.5 rounded-full hover:bg-white/10 transition-colors"
           aria-label="Clear input"
         >
-          <X size={14} color="rgba(13,31,53,0.4)" />
+          <X size={14} color="#94a3b8" />
         </motion.button>
       )}
 
@@ -82,18 +82,19 @@ export function CommandInput({
         onClick={handleSubmit}
         disabled={!value.trim() || disabled}
         aria-label="Send command"
-        className="absolute right-2 w-10 h-10 rounded-full flex items-center justify-center transition-all"
+        className="absolute right-2 w-9 h-9 rounded-full flex items-center justify-center transition-all"
         style={{
           background: value.trim() && !disabled
-            ? 'linear-gradient(135deg, #0088ff, #006dcc)'
-            : 'rgba(0,0,0,0.06)',
-          boxShadow: value.trim() ? '0 2px 8px rgba(0,136,255,0.30)' : 'none',
+            ? 'linear-gradient(135deg, #6366f1, #38bdf8)'
+            : 'rgba(255,255,255,0.06)',
+          boxShadow: value.trim() && !disabled ? '0 2px 12px rgba(56,189,248,0.35)' : 'none',
           cursor: !value.trim() || disabled ? 'not-allowed' : 'pointer',
+          opacity: !value.trim() || disabled ? 0.4 : 1,
         }}
       >
         <Send
-          size={16}
-          color={value.trim() && !disabled ? 'white' : 'rgba(13,31,53,0.3)'}
+          size={15}
+          color="#ffffff"
           strokeWidth={2}
         />
       </button>

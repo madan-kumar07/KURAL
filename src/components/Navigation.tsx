@@ -1,4 +1,4 @@
-// Navigation.tsx — Bottom navigation bar (mobile-first) + top nav on desktop
+// Navigation.tsx — Bottom navigation bar (mobile-first)
 
 import { motion } from 'framer-motion'
 import { Home, FolderOpen, Clock, Settings } from 'lucide-react'
@@ -30,16 +30,15 @@ export function Navigation({ current, onChange }: NavigationProps) {
             aria-label={ariaLabel}
             aria-current={isActive ? 'page' : undefined}
           >
-            <div className="relative">
+            <div className="relative flex items-center justify-center p-1.5 rounded-full">
               <Icon
-                size={22}
-                strokeWidth={isActive ? 2.2 : 1.8}
+                size={20}
+                strokeWidth={isActive ? 2.4 : 1.8}
               />
               {isActive && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute -inset-1.5 rounded-full -z-10"
-                  style={{ background: 'rgba(0,136,255,0.10)' }}
+                  className="absolute inset-0 rounded-full -z-10 bg-cyan-500/20 border border-cyan-400/30"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}

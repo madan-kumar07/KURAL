@@ -13,30 +13,30 @@ interface FileCardProps {
 }
 
 function FileTypeIcon({ type, mimeType }: { type: string; mimeType: string }) {
-  const size = 22
+  const size = 20
   if (type === 'pdf' || mimeType.includes('pdf')) {
     return (
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center file-icon-pdf">
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-red-500/15 text-red-400">
         <FileType size={size} strokeWidth={1.8} />
       </div>
     )
   }
   if (type === 'image') {
     return (
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center file-icon-img">
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-purple-500/15 text-purple-400">
         <Image size={size} strokeWidth={1.8} />
       </div>
     )
   }
   if (type === 'document') {
     return (
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center file-icon-doc">
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-cyan-500/15 text-cyan-400">
         <FileText size={size} strokeWidth={1.8} />
       </div>
     )
   }
   return (
-    <div className="w-10 h-10 rounded-xl flex items-center justify-center file-icon-default">
+    <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-slate-500/15 text-slate-400">
       <File size={size} strokeWidth={1.8} />
     </div>
   )
@@ -58,10 +58,10 @@ export function FileCard({ file, onClick, onDelete, isSelected }: FileCardProps)
       className="glass-card p-4 cursor-pointer group"
       style={{
         border: isSelected
-          ? '1.5px solid rgba(0,136,255,0.40)'
-          : '1px solid rgba(255,255,255,0.50)',
+          ? '1px solid rgba(56,189,248,0.5)'
+          : '1px solid rgba(255,255,255,0.08)',
         boxShadow: isSelected
-          ? '0 4px 24px rgba(0,136,255,0.15)'
+          ? '0 4px 20px rgba(56,189,248,0.2)'
           : undefined,
       }}
       role="button"
@@ -72,30 +72,30 @@ export function FileCard({ file, onClick, onDelete, isSelected }: FileCardProps)
       <div className="flex items-start gap-3">
         <FileTypeIcon type={file.type} mimeType={file.mimeType} />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-ink truncate leading-snug">{file.name}</p>
+          <p className="text-xs font-semibold text-slate-100 truncate leading-snug">{file.name}</p>
           <div className="flex items-center gap-2 mt-1">
-            <span className="kural-badge">{file.type.toUpperCase()}</span>
-            <span className="text-xs text-ink-tertiary">{formatFileSize(file.size)}</span>
+            <span className="kural-badge text-[10px]">{file.type.toUpperCase()}</span>
+            <span className="text-[10px] text-slate-400">{formatFileSize(file.size)}</span>
           </div>
-          <p className="text-xs text-ink-tertiary mt-1">{dateStr}</p>
+          <p className="text-[10px] text-slate-400 mt-1">{dateStr}</p>
         </div>
 
         {/* Actions on hover */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
           <button
             onClick={(e) => { e.stopPropagation(); onClick?.() }}
-            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-black/5"
+            className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-white/10"
             aria-label="View file"
           >
-            <Eye size={14} color="rgba(0,136,255,0.7)" />
+            <Eye size={14} className="text-cyan-400" />
           </button>
           {onDelete && (
             <button
               onClick={(e) => { e.stopPropagation(); onDelete() }}
-              className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-50"
+              className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-500/10"
               aria-label="Remove file"
             >
-              <Trash2 size={14} color="rgba(220,38,38,0.7)" />
+              <Trash2 size={14} className="text-red-400" />
             </button>
           )}
         </div>
@@ -103,9 +103,9 @@ export function FileCard({ file, onClick, onDelete, isSelected }: FileCardProps)
 
       {/* Indexed status indicator */}
       {file.searchText && (
-        <div className="mt-3 pt-2.5 border-t border-black/5">
-          <p className="text-xs text-ink-tertiary truncate">
-            Text indexed · searchable
+        <div className="mt-3 pt-2 border-t border-white/5">
+          <p className="text-[10px] text-emerald-400 truncate">
+            ✓ Text indexed & searchable
           </p>
         </div>
       )}

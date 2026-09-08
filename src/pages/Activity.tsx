@@ -1,4 +1,4 @@
-// Activity.tsx — Real operation history from IndexedDB
+// Activity.tsx — Real operation history with dark theme styling
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,11 +11,11 @@ import { ConfirmationDialog } from '../components/ConfirmationDialog'
 
 function ActivityIcon({ type }: { type: ActivityRecord['type'] }) {
   const config = {
-    find_file:       { Icon: Search,       color: '#0088ff', bg: 'rgba(0,136,255,0.10)' },
-    read_file:       { Icon: BookOpen,     color: '#7c3aed', bg: 'rgba(124,58,237,0.10)' },
-    share_file:      { Icon: Share2,       color: '#059669', bg: 'rgba(5,150,105,0.10)' },
-    create_reminder: { Icon: Bell,         color: '#d97706', bg: 'rgba(217,119,6,0.10)' },
-    error:           { Icon: AlertCircle,  color: '#dc2626', bg: 'rgba(220,38,38,0.10)' },
+    find_file:       { Icon: Search,       color: '#38bdf8', bg: 'rgba(56,189,248,0.15)' },
+    read_file:       { Icon: BookOpen,     color: '#c084fc', bg: 'rgba(192,132,252,0.15)' },
+    share_file:      { Icon: Share2,       color: '#34d399', bg: 'rgba(52,211,153,0.15)' },
+    create_reminder: { Icon: Bell,         color: '#fbbf24', bg: 'rgba(251,191,36,0.15)' },
+    error:           { Icon: AlertCircle,  color: '#f87171', bg: 'rgba(248,113,113,0.15)' },
   }
   const { Icon, color, bg } = config[type] || config.error
   return (
@@ -66,19 +66,19 @@ export function Activity() {
 
   return (
     <div className="page-container">
-      <div className="max-w-lg mx-auto px-4 pt-4 pb-4 space-y-4">
+      <div className="max-w-lg mx-auto px-4 pt-2 pb-4 space-y-4">
 
         {/* Tabs */}
-        <div className="flex gap-2 p-1 rounded-2xl" style={{ background: 'rgba(0,136,255,0.07)' }}>
+        <div className="flex gap-2 p-1 rounded-2xl bg-white/5 border border-white/10">
           {(['history', 'reminders'] as const).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className="flex-1 py-2 rounded-xl text-sm font-medium transition-all"
+              className="flex-1 py-2 rounded-xl text-xs font-semibold transition-all"
               style={{
-                background: tab === t ? 'white' : 'transparent',
-                color: tab === t ? '#005299' : 'rgba(13,31,53,0.55)',
-                boxShadow: tab === t ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
+                background: tab === t ? 'rgba(56,189,248,0.2)' : 'transparent',
+                color: tab === t ? '#38bdf8' : '#94a3b8',
+                border: tab === t ? '1px solid rgba(56,189,248,0.3)' : '1px solid transparent',
               }}
             >
               {t === 'history' ? `History (${activities.length})` : `Reminders (${reminders.length})`}
@@ -90,10 +90,10 @@ export function Activity() {
           {tab === 'history' && (
             <motion.div
               key="history"
-              initial={{ opacity: 0, x: -16 }}
+              initial={{ opacity: 0, x: -12 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, x: 12 }}
+              transition={{ duration: 0.2 }}
               className="space-y-4"
             >
               {activities.length === 0 ? (
@@ -101,19 +101,19 @@ export function Activity() {
                   className="glass-card p-10 flex flex-col items-center gap-3 text-center"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 >
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(0,136,255,0.08)' }}>
-                    <Clock size={32} color="#0088ff" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-cyan-500/10 text-cyan-400">
+                    <Clock size={28} strokeWidth={1.5} />
                   </div>
-                  <p className="text-sm font-semibold text-ink">No activity yet</p>
-                  <p className="text-xs text-ink-secondary">Your completed KURAL actions will appear here.</p>
+                  <p className="text-sm font-semibold text-slate-100">No activity yet</p>
+                  <p className="text-xs text-slate-400">Your completed KURAL actions will appear here.</p>
                 </motion.div>
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-ink-tertiary">{activities.length} operations</p>
+                    <p className="text-xs text-slate-400">{activities.length} operations</p>
                     <button
                       onClick={() => setConfirmClear(true)}
-                      className="btn-ghost text-red-500 text-xs"
+                      className="btn-ghost text-red-400 text-xs"
                     >
                       <Trash2 size={13} /> Clear all
                     </button>
@@ -131,15 +131,15 @@ export function Activity() {
                         >
                           <ActivityIcon type={a.type} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-ink leading-snug">{a.description}</p>
+                            <p className="text-xs font-semibold text-slate-100 leading-snug">{a.description}</p>
                             {a.detail && (
-                              <p className="text-xs text-ink-secondary mt-0.5 leading-snug truncate">{a.detail}</p>
+                              <p className="text-[11px] text-slate-400 mt-0.5 leading-snug truncate">{a.detail}</p>
                             )}
                             {a.fileName && (
-                              <p className="text-xs text-brand mt-1 truncate">{a.fileName}</p>
+                              <p className="text-[11px] text-cyan-400 mt-1 truncate">{a.fileName}</p>
                             )}
                           </div>
-                          <span className="text-xs text-ink-tertiary flex-shrink-0 mt-0.5">{timeAgo(a.timestamp)}</span>
+                          <span className="text-[10px] text-slate-400 flex-shrink-0 mt-0.5">{timeAgo(a.timestamp)}</span>
                         </motion.div>
                       ))}
                     </AnimatePresence>
@@ -152,10 +152,10 @@ export function Activity() {
           {tab === 'reminders' && (
             <motion.div
               key="reminders"
-              initial={{ opacity: 0, x: 16 }}
+              initial={{ opacity: 0, x: 12 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -16 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.2 }}
               className="space-y-3"
             >
               {reminders.length === 0 ? (
@@ -163,11 +163,11 @@ export function Activity() {
                   className="glass-card p-10 flex flex-col items-center gap-3 text-center"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 >
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(217,119,6,0.08)' }}>
-                    <Bell size={32} color="#d97706" strokeWidth={1.5} />
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-amber-500/10 text-amber-400">
+                    <Bell size={28} strokeWidth={1.5} />
                   </div>
-                  <p className="text-sm font-semibold text-ink">No reminders yet</p>
-                  <p className="text-xs text-ink-secondary">Say "Remind me tomorrow at 9 to pay the bill" to create one.</p>
+                  <p className="text-sm font-semibold text-slate-100">No reminders yet</p>
+                  <p className="text-xs text-slate-400">Say "Remind me tomorrow at 9 to pay the bill" to create one.</p>
                 </motion.div>
               ) : (
                 <AnimatePresence>
@@ -181,23 +181,23 @@ export function Activity() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.2, delay: i * 0.03 }}
-                        style={{ opacity: r.fired ? 0.55 : 1 }}
+                        style={{ opacity: r.fired ? 0.6 : 1 }}
                       >
                         <div
                           className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                          style={{ background: r.fired ? 'rgba(34,197,94,0.10)' : 'rgba(217,119,6,0.10)' }}
+                          style={{ background: r.fired ? 'rgba(52,211,153,0.15)' : 'rgba(251,191,36,0.15)' }}
                         >
                           {r.fired
-                            ? <CheckCircle size={16} color="#16a34a" />
-                            : <Bell size={16} color="#d97706" />
+                            ? <CheckCircle size={16} color="#34d399" />
+                            : <Bell size={16} color="#fbbf24" />
                           }
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-ink">{r.title}</p>
+                          <p className="text-xs font-semibold text-slate-100">{r.title}</p>
                           {r.message && r.message !== r.title && (
-                            <p className="text-xs text-ink-secondary mt-0.5">{r.message}</p>
+                            <p className="text-[11px] text-slate-400 mt-0.5">{r.message}</p>
                           )}
-                          <p className="text-xs mt-1" style={{ color: isPast && !r.fired ? '#dc2626' : '#d97706' }}>
+                          <p className="text-[11px] mt-1" style={{ color: isPast && !r.fired ? '#f87171' : '#fbbf24' }}>
                             {new Date(r.triggerTime).toLocaleString('en-IN', {
                               weekday: 'short', day: 'numeric', month: 'short',
                               hour: '2-digit', minute: '2-digit',
@@ -206,15 +206,15 @@ export function Activity() {
                             {isPast && !r.fired && ' · Missed (tab was closed)'}
                           </p>
                           {r.fileName && (
-                            <p className="text-xs text-brand mt-1 truncate">📎 {r.fileName}</p>
+                            <p className="text-[11px] text-cyan-400 mt-1 truncate">📎 {r.fileName}</p>
                           )}
                         </div>
                         <button
                           onClick={() => handleDeleteReminder(r.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-red-50 flex-shrink-0"
+                          className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-red-500/10 flex-shrink-0"
                           aria-label="Delete reminder"
                         >
-                          <Trash2 size={13} color="rgba(220,38,38,0.6)" />
+                          <Trash2 size={13} className="text-red-400" />
                         </button>
                       </motion.div>
                     )

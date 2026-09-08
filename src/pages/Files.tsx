@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, FolderOpen, X, Filter } from 'lucide-react'
+import { Search, FolderOpen, X } from 'lucide-react'
 
 import { FileCard } from '../components/FileCard'
 import { FilePicker } from '../components/FilePicker'
@@ -71,17 +71,17 @@ function FileDetail({ file, onClose, onDelete }: FileDetailProps) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-5 border-b border-black/5">
+        <div className="flex items-start justify-between p-5 border-b border-white/10">
           <div className="flex-1 min-w-0">
-            <p className="text-base font-semibold text-ink truncate">{file.name}</p>
-            <p className="text-xs text-ink-tertiary mt-1">{date}</p>
+            <p className="text-base font-semibold text-slate-100 truncate">{file.name}</p>
+            <p className="text-xs text-slate-400 mt-1">{date}</p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5 ml-2 flex-shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 ml-2 flex-shrink-0"
             aria-label="Close"
           >
-            <X size={16} color="rgba(13,31,53,0.5)" />
+            <X size={16} className="text-slate-400" />
           </button>
         </div>
 
@@ -95,15 +95,15 @@ function FileDetail({ file, onClose, onDelete }: FileDetailProps) {
               { label: 'Indexed', value: new Date(file.lastIndexed).toLocaleDateString('en-IN') },
             ].map(({ label, value }) => (
               <div key={label} className="glass-card-blue p-3 rounded-xl">
-                <p className="text-xs text-ink-tertiary">{label}</p>
-                <p className="text-sm font-medium text-ink truncate mt-0.5">{value}</p>
+                <p className="text-[10px] text-slate-400">{label}</p>
+                <p className="text-xs font-medium text-cyan-300 truncate mt-0.5">{value}</p>
               </div>
             ))}
           </div>
 
           {/* Image preview */}
           {file.type === 'image' && file.dataUrl && (
-            <div className="rounded-xl overflow-hidden">
+            <div className="rounded-xl overflow-hidden border border-white/10">
               <img
                 src={file.dataUrl}
                 alt={file.name}
@@ -119,20 +119,20 @@ function FileDetail({ file, onClose, onDelete }: FileDetailProps) {
                 <button
                   onClick={handleRead}
                   disabled={isReading}
-                  className="btn-secondary w-full justify-center"
+                  className="btn-secondary w-full justify-center text-xs"
                 >
                   {isReading ? 'Extracting text…' : 'Extract PDF text'}
                 </button>
               )}
               {readError && (
-                <p className="text-xs text-red-600 p-3 rounded-xl" style={{ background: 'rgba(220,38,38,0.06)' }}>
+                <p className="text-xs text-red-400 p-3 rounded-xl bg-red-500/10 border border-red-500/20">
                   {readError}
                 </p>
               )}
               {extractedText && (
                 <div className="mt-2">
-                  <p className="text-xs font-medium text-ink-secondary mb-2">Extracted text (preview):</p>
-                  <pre className="text-xs text-ink-secondary bg-black/4 p-3 rounded-xl overflow-auto max-h-40 whitespace-pre-wrap leading-relaxed">
+                  <p className="text-xs font-medium text-slate-300 mb-2">Extracted text (preview):</p>
+                  <pre className="text-xs text-slate-300 bg-black/40 p-3 rounded-xl overflow-auto max-h-40 whitespace-pre-wrap leading-relaxed border border-white/10">
                     {extractedText.substring(0, 800)}
                     {extractedText.length > 800 ? '…' : ''}
                   </pre>
@@ -143,15 +143,15 @@ function FileDetail({ file, onClose, onDelete }: FileDetailProps) {
 
           {/* Cached search text */}
           {file.searchText && (
-            <div className="p-2 rounded-xl" style={{ background: 'rgba(34,197,94,0.06)' }}>
-              <p className="text-xs text-green-700 font-medium">✓ Text indexed for search</p>
+            <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <p className="text-xs text-emerald-400 font-medium">✓ Text indexed & searchable</p>
             </div>
           )}
         </div>
 
         {/* Footer actions */}
         <div className="p-5 pt-0 flex gap-3">
-          <button onClick={onDelete} className="btn-ghost text-red-600 hover:bg-red-50">
+          <button onClick={onDelete} className="btn-ghost text-red-400 hover:bg-red-500/10">
             Remove
           </button>
           <div className="flex-1" />
@@ -198,7 +198,7 @@ export function Files() {
       await loadFiles()
       setIndexMessage(`${newFiles.length} file${newFiles.length > 1 ? 's' : ''} added.`)
       setTimeout(() => setIndexMessage(''), 3000)
-    } catch (err) {
+    } catch {
       setIndexMessage('Failed to index some files.')
     } finally {
       setIsIndexing(false)
@@ -214,14 +214,13 @@ export function Files() {
 
   return (
     <div className="page-container">
-      <div className="max-w-lg mx-auto px-4 pt-4 pb-4 space-y-4">
+      <div className="max-w-lg mx-auto px-4 pt-2 pb-4 space-y-4">
 
         {/* ── Search bar ─── */}
         <div className="relative">
           <Search
             size={16}
-            color="rgba(13,31,53,0.40)"
-            className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
           />
           <input
             type="text"
@@ -234,10 +233,10 @@ export function Files() {
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-black/5"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10"
               aria-label="Clear search"
             >
-              <X size={13} color="rgba(13,31,53,0.40)" />
+              <X size={13} className="text-slate-400" />
             </button>
           )}
         </div>
@@ -248,17 +247,11 @@ export function Files() {
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className="flex-shrink-0"
+              className="suggestion-chip"
               style={{
-                padding: '6px 14px',
-                borderRadius: '999px',
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-                background: activeFilter === f ? '#0088ff' : 'rgba(255,255,255,0.65)',
-                color: activeFilter === f ? 'white' : 'rgba(13,31,53,0.65)',
-                border: activeFilter === f ? 'none' : '1px solid rgba(0,136,255,0.15)',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                background: activeFilter === f ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                color: activeFilter === f ? '#38bdf8' : '#94a3b8',
+                borderColor: activeFilter === f ? 'rgba(56, 189, 248, 0.4)' : 'rgba(255, 255, 255, 0.1)',
               }}
             >
               {FILTER_LABELS[f]}
@@ -273,7 +266,7 @@ export function Files() {
         <AnimatePresence>
           {indexMessage && (
             <motion.p
-              className="text-xs text-brand font-medium px-1"
+              className="text-xs text-cyan-400 font-medium px-1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -290,16 +283,13 @@ export function Files() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ background: 'rgba(0,136,255,0.08)' }}
-            >
-              <FolderOpen size={32} color="#0088ff" strokeWidth={1.5} />
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-cyan-500/10 text-cyan-400">
+              <FolderOpen size={28} strokeWidth={1.5} />
             </div>
             {searchQuery || activeFilter !== 'all' ? (
               <>
-                <p className="text-sm font-semibold text-ink">No files match your search</p>
-                <p className="text-xs text-ink-secondary">
+                <p className="text-sm font-semibold text-slate-100">No files match your search</p>
+                <p className="text-xs text-slate-400">
                   Try a different search term or filter.
                 </p>
                 <button
@@ -311,8 +301,8 @@ export function Files() {
               </>
             ) : (
               <>
-                <p className="text-sm font-semibold text-ink">No files indexed yet</p>
-                <p className="text-xs text-ink-secondary">
+                <p className="text-sm font-semibold text-slate-100">No files indexed yet</p>
+                <p className="text-xs text-slate-400">
                   Add files so KURAL can find, read, and share them.
                 </p>
                 <FilePicker onFiles={handleFilesAdded} variant="drop-zone" />
@@ -321,7 +311,7 @@ export function Files() {
           </motion.div>
         ) : (
           <div className="space-y-2">
-            <p className="text-xs text-ink-tertiary px-1">
+            <p className="text-xs text-slate-400 px-1">
               {filtered.length} file{filtered.length !== 1 ? 's' : ''}
               {searchQuery ? ` matching "${searchQuery}"` : ''}
             </p>

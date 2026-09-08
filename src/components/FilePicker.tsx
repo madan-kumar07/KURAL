@@ -1,4 +1,4 @@
-// FilePicker.tsx — Real file picker using <input type="file">
+// FilePicker.tsx — Real file picker with dark theme styling
 
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
@@ -17,7 +17,6 @@ export function FilePicker({ onFiles, disabled = false, variant = 'button' }: Fi
     const files = Array.from(e.target.files || [])
     if (files.length > 0) {
       onFiles(files)
-      // Reset so same files can be re-added
       e.target.value = ''
     }
   }
@@ -32,7 +31,6 @@ export function FilePicker({ onFiles, disabled = false, variant = 'button' }: Fi
     e.preventDefault()
   }
 
-  // Hidden input
   const input = (
     <input
       ref={inputRef}
@@ -53,22 +51,19 @@ export function FilePicker({ onFiles, disabled = false, variant = 'button' }: Fi
         onClick={() => inputRef.current?.click()}
         whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.99 }}
-        className="glass-card-blue rounded-2xl p-8 flex flex-col items-center gap-3 cursor-pointer text-center transition-all"
-        style={{ borderStyle: 'dashed', borderColor: 'rgba(0,136,255,0.25)', borderWidth: 1.5 }}
+        className="glass-card-blue rounded-2xl p-6 flex flex-col items-center gap-3 cursor-pointer text-center transition-all border-dashed"
+        style={{ borderWidth: 1.5 }}
       >
         {input}
-        <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center"
-          style={{ background: 'rgba(0,136,255,0.10)' }}
-        >
-          <Upload size={24} color="#0088ff" strokeWidth={1.8} />
+        <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-cyan-500/20 text-cyan-400">
+          <Upload size={22} strokeWidth={1.8} />
         </div>
         <div>
-          <p className="text-sm font-semibold text-ink">Add files to KURAL</p>
-          <p className="text-xs text-ink-secondary mt-1">
+          <p className="text-xs font-bold text-slate-100">Add files to KURAL</p>
+          <p className="text-[11px] text-slate-400 mt-0.5">
             Drop files here or tap to browse
           </p>
-          <p className="text-xs text-ink-tertiary mt-1">
+          <p className="text-[10px] text-slate-400 mt-1">
             PDF, images, documents · max 10 MB each
           </p>
         </div>
@@ -82,10 +77,10 @@ export function FilePicker({ onFiles, disabled = false, variant = 'button' }: Fi
       <button
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
-        className="btn-primary"
+        className="btn-primary text-xs py-2 px-4"
         aria-label="Add files"
       >
-        <Plus size={18} />
+        <Plus size={16} />
         Add files
       </button>
     </>
